@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-   name='klswordopen',
+   name='kls',
    version='0.0.1',
    description='klsworld open!',
    author='kebiat',
