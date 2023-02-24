@@ -1,4 +1,4 @@
-from ...monogodb import db
+from osul.monogodb import db
 from bson.objectid import ObjectId
 
 collection = db["klsworld_person"]
