@@ -7,7 +7,7 @@ setup(
    author='kebiat',
    url="https://github.com/kbbss/kworldopen.git",
    author_email='kebiat@naver.com',
-   packages=find_packages(where='osul'),
+   packages=find_packages(where='src'),
    #package_dir={'': 'src'},
    license="kebiat",
    zip_safe=False,
