@@ -1,2 +1,2 @@
-from .klsworld import *
-from .monogodb import *
+def klstest():
+    return "klstest!!!"

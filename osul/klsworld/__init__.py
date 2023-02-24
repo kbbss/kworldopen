@@ -1,2 +1,0 @@
-def klstest():
-    return "klstest!!!"
