@@ -17,8 +17,8 @@ if __name__ == '__main__':
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
 
 
-from klsworld.person import fromLabelname as person_fromLabelname
-from klsworld.targetshape import find as targetshape_find
+from src.klsworld.person import fromLabelname as person_fromLabelname
+from src.klsworld.targetshape import find as targetshape_find
 
 person = person_fromLabelname("iu")
 print("person",person)
