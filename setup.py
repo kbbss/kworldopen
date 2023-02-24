@@ -7,7 +7,8 @@ setup(
    author='kebiat',
    url="https://github.com/kbbss/kworldopen.git",
    author_email='kebiat@naver.com',
-   packages=find_packages(where=''),
+   packages=find_packages(where='src'),
+   package_dir={'': 'src'},
    license="kebiat",
    zip_safe=False,
    install_requires = ["pymongo==3.12.0"]
