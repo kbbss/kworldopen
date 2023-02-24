@@ -7,7 +7,7 @@ setup(
    author='kebiat',
    url="https://github.com/kbbss/kworldopen.git",
    author_email='kebiat@naver.com',
-   packages=['osul','osul.klsworld'],  # would be the same as name
+   packages=find_packages(where='osul'), # would be the same as name
    license="kebiat",
    zip_safe=False,
    install_requires = ["pymongo==3.12.0"]
