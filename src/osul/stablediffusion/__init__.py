@@ -2,7 +2,7 @@
 
 
 
-def make(model_id,prompt):
+def makeImage(model_id,prompt):
     #!pip install --upgrade -qq git+https://github.com/huggingface/diffusers.git
     from diffusers import StableDiffusionPipeline
     import torch
