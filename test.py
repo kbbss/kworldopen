@@ -11,7 +11,3 @@ print("targetshape",targetshape)
 
 #63f6ec9518983076fd4ecc29
 
-from src.osul.dataac import fromID as dataac_fromID
-from src.osul.dataac.image import imageView
-
-imageView("63f6ec9518983076fd4ecc29")
