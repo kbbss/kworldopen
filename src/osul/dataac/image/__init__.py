@@ -41,3 +41,30 @@ def imageShow(id):
             cv2.imshow(f'ImageView ID : {id}', image)
             cv2.waitKey(0)
         return None
+
+
+def upload(filepaths, cloudpath):
+    """
+ data = str({"path":"/image"})
+files = open('aaa.jpg', 'r')
+
+upload = {'file':files}
+res = requests.post("http://miyo2020.cafe24.com/klsworld/acfile/upload/dataac_acfile/upload_files",  files = upload ,data={"param":data})
+print("res.json",res.json())
+    """
+    import requests
+    files = {}
+    count =0
+    if type(filepaths) == str:
+        filepaths =[filepaths]
+    for filepath in filepaths:
+        print("filepath", filepath)
+        file = open(filepath, 'rb')
+        print("file",file)
+        if file:
+            count = count+1
+            files[f"file{count}"] = file
+    if len(files) > 0:
+        res = requests.post(f"{host}/klsworld/acfile/upload/dataac_acfile/upload_files",
+                            files=files, data={"param": str({"path": cloudpath})})
+        return res.json()
