@@ -11,17 +11,20 @@ def find(model_name, target):
         {"model_name": model_name, "target._id": ObjectId(target["id"]), "target.name": target["name"]})
 
 
-def createImage(model_name, target):
+def createImage(model_name, target, another_prompt=""):
     ts = find(model_name, target)
-    print("ts",ts)
+    print("ts", ts)
     if ts:
-        img = sd_makeImage(model_name,ts["prompt"])
+        prompt = ts["prompt"]
+        if len(another_prompt) > 0:
+            prompt = f"{prompt},{another_prompt}"
+        img = sd_makeImage(model_name, prompt)
         if img:
             filename = "targetshape_create_image.jpg"
             img.save(filename)
 
-            clist= upload(filename, "/sdtest")
-            print("clist",clist)
+            clist = upload(filename, "/sdtest")
+            print("clist", clist)
             return img
 
     else:
