@@ -3,6 +3,7 @@ from urllib.request import urlopen
 from PIL import Image
 import numpy as np
 import urllib.request
+import requests
 import cv2
 
 host = "http://miyo2020.cafe24.com"
@@ -17,10 +18,26 @@ def imageUrl(id):
     return None
 
 
-def imageCv2Array(id):
-    url = imageUrl(id)
-    if url is not None:
-        resp = urllib.request.urlopen(url)
-        image = np.asarray(bytearray(resp.read()), dtype='uint8')
-        return cv2.imdecode(image, cv2.IMREAD_COLOR)
-    return None
+def imageShow(id):
+    import sys
+    IN_COLAB = 'google.colab' in sys.modules
+
+    if IN_COLAB:
+        from google.colab.patches import cv2_imshow
+        url = imageUrl(id)
+        print("url", url)
+        if url:
+            resp = urllib.request.urlopen(url)
+            image = np.asarray(bytearray(resp.read()), dtype='uint8')
+            ar = cv2.imdecode(image, cv2.IMREAD_COLOR)
+            cv2_imshow(ar)
+    else:
+        url = imageUrl(id)
+        print("url", url)
+        if url:
+            image_nparray = np.asarray(bytearray(requests.get(url).content), dtype=np.uint8)
+            image = cv2.imdecode(image_nparray, cv2.IMREAD_COLOR)
+            print(image.shape)
+            cv2.imshow(f'ImageView ID : {id}', image)
+            cv2.waitKey(0)
+        return None

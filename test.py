@@ -11,6 +11,6 @@ print("targetshape",targetshape)
 
 #63f6ec9518983076fd4ecc29
 
+from src.osul.dataac.image import imageShow
 
-
-
+imageShow("63f6ec9518983076fd4ecc29")
