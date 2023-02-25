@@ -15,7 +15,7 @@ def createImage(model_name, target):
     ts = find(model_name, target)
     print("ts",ts)
     if ts:
-        img = sd_makeImage(ts["prompt"])
+        img = sd_makeImage(model_name,ts["prompt"])
         if img:
             filename = "targetshape_create_image.jpg"
             img.save(filename)
