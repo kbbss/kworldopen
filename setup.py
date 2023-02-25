@@ -11,6 +11,6 @@ setup(
   package_dir={'': 'src'},
    license="kebiat",
    zip_safe=False,
-   install_requires = ["pymongo==3.12.0"]
+   install_requires = ["pymongo"]
 
 )
