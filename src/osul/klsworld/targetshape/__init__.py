@@ -13,6 +13,7 @@ def find(model_name, target):
 
 def createImage(model_name, target):
     ts = find(model_name, target)
+    print("ts",ts)
     if ts:
         img = sd_makeImage(ts["prompt"])
         if img:
