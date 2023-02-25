@@ -3,6 +3,7 @@
 
 
 def make(model_id,prompt):
+    #!pip install --upgrade -qq git+https://github.com/huggingface/diffusers.git
     from diffusers import StableDiffusionPipeline
     import torch
 
@@ -11,4 +12,4 @@ def make(model_id,prompt):
     image = pipe(prompt).images[0]
     print("image",image)
 
-    image.save("./result.jpg")
+    return image
