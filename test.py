@@ -11,10 +11,6 @@ print("targetshape",targetshape)
 
 #63f6ec9518983076fd4ecc29
 
-from src.osul.dataac.image import imageCv2
-import cv2
-imgcv = imageCv2("63f6ec9518983076fd4ecc29")
-print("imgcv",imgcv)
-cv2.imshow('image', imgcv)
+
 
 
