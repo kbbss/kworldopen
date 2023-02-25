@@ -1,4 +1,4 @@
-from ...osul.monogodb import db
+from ..monogodb import db
 from bson.objectid import ObjectId
 
 collection = db["dataac_acfile"]
