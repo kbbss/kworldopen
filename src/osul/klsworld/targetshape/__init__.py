@@ -34,7 +34,14 @@ def createImage(model_name, target, another_prompt=""):
 
 def createPromptImage(model_name, text):
     text = changeText(model_name,text)
+    print("changetext..",text)
     img = sd_makeImage(model_name, text)
+    if img :
+        filename = "targetshape_create_image.jpg"
+        img.save(filename)
+
+        clist = upload(filename, "/sdtest")
+        print("upload!",clist)
     return img
 
 
