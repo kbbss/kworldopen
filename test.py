@@ -1,4 +1,7 @@
-from src.osul.dataac.image import upload
+prompt = "솔희,girl,sex"
 
-clist = upload("C:\\Users\\kebia\\Downloads\\promptheroopenjourney.jpg", "/image")
-print("clist", clist)
+
+from src.osul.klsworld.targetshape import changeText
+
+text =changeText("Linaqruf/anything-v3.0" ,prompt)
+print("text!",text)
