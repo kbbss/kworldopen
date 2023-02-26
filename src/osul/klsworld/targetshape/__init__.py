@@ -33,7 +33,7 @@ def createImage(model_name, target, another_prompt=""):
 
 
 def createPromptImage(model_name, text):
-    text = changeText(text)
+    text = changeText(model_name,text)
     img = sd_makeImage(model_name, text)
     return img
 
