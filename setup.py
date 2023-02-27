@@ -11,6 +11,6 @@ setup(
   package_dir={'': 'src'},
    license="kebiat",
    zip_safe=False,
-   install_requires = ["pymongo"]
+   install_requires = ["pymongo","flask","flask-ngrok","pyngrok==4.1.1"]
 
 )
