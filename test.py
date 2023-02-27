@@ -1,11 +1,6 @@
 from bson.json_util import dumps
 
-from src.osul.klsworld.shapeword import categroySample
-from src.osul.klsworld.shapeword import randomText
-d=  categroySample("job")
+from src.osul.flaskserver import run
 
-print("d",d)
-
-print("randomtext",randomText())
-
+run()
 
