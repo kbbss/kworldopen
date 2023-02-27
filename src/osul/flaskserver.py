@@ -32,8 +32,8 @@ def run():
     @app.route("/make_image",methods=['POST'] )
     def make_image():
 
-        from ..osul.stablediffusion import makeImage
-        from ..osul.dataac.image import upload
+        from stablediffusion  import makeImage
+        from dataac.image import upload
         params = requests.json
         print("parans", params)
         image = makeImage(params["model_name"], params["prompt"])
