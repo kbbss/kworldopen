@@ -25,7 +25,6 @@ def creteRandomImage():
     import requests
     from ...stablediffusion import makeImage
     from ...dataac.image import upload
-    from bson.json_util import dumps
     host = "http://kebiat.iptime.org:8082"
     res = requests.post(f"{host}/klsworld/shapeword/makeimage/request_data",
                         headers={'Content-type': 'application/json'}, json={})
@@ -34,9 +33,10 @@ def creteRandomImage():
 
     prompt = json["prompt"]
     type = json["type"]
-    print("prompt=", prompt, "type=", type)
+    model_name = json["model_name"]
+    print("prompt=", prompt, "type=", type ,"model_name=",model_name)
 
-    image = makeImage("Linaqruf/anything-v3.0", prompt)
+    image = makeImage(model_name, prompt)
     image.save("result.jpg")
 
     clist = upload("result.jpg", "/sdtest")
