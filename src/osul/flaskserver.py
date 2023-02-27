@@ -29,8 +29,9 @@ def run():
             res = requests.post(f"{HOST_OSUL_SERVER}/osul/ngrokhost/set_now_host",
                                 headers={'Content-type': 'application/json'}, json={"host": u})
 
-    @app.post("/make_image")
+    @app.route("/make_image",methods=['POST'] )
     def make_image():
+
         from ..osul.stablediffusion import makeImage
         from ..osul.dataac.image import upload
         params = requests.json
