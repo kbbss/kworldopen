@@ -38,6 +38,7 @@ def creteRandomImage():
 
     image = makeImage("Linaqruf/anything-v3.0", prompt)
     image.save("result.jpg")
+
     clist = upload("result.jpg", "/sdtest")
     print("clist", clist)
     for c in clist["list"]:
@@ -48,4 +49,4 @@ def creteRandomImage():
 
     made = res.json()
     print("made", made)
-    return {"image": None, "made": made}
+    return {"image": image, "made": made}
