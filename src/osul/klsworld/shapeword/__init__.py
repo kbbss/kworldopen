@@ -40,7 +40,7 @@ def creteRandomImage():
     image.save("result.jpg")
     clist = upload("result.jpg", "/sdtest")
     print("clist", clist)
-    for c in clist:
+    for c in clist["list"]:
         json["image"] = c["id"]
 
     res = requests.post(f"{host}/klsworld/shapeword/makeimage/create",
