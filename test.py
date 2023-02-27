@@ -1,7 +1,11 @@
-prompt = "솔희,girl,sex"
+from bson.json_util import dumps
+
+from src.osul.klsworld.shapeword import categroySample
+from src.osul.klsworld.shapeword import randomText
+d=  categroySample("job")
+
+print("d",d)
+
+print("randomtext",randomText())
 
 
-from src.osul.klsworld.targetshape import changeText
-
-text =changeText("Linaqruf/anything-v3.0" ,prompt)
-print("text!",text)
