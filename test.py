@@ -1,6 +1,8 @@
 from bson.json_util import dumps
 
-from src.osul.flask.s1 import run
+from src.osul.klsworld.shapeword import creteRandomImage
 
-run()
+data = creteRandomImage()
+
+print("data",data)
 

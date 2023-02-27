@@ -11,7 +11,7 @@ def run():
     HOST_OSUL_SERVER = "http://kebiat.iptime.org:8082"
 
 
-    ngrok.set_auth_token("2MDs2nO6RHjqSX7fqnx9Akt4QNM_3Z8XZbFz8NAvGAtVgnfc5")
+    ngrok.set_auth_token("")
     app = Flask(__name__)
     run_with_ngrok(app)  # Start ngrok when app is run
 
