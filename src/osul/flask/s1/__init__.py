@@ -7,7 +7,9 @@ def run():
     from flask_ngrok import run_with_ngrok
     import requests
     from bson.json_util import dumps
+    import json
     HOST_OSUL_SERVER = "http://kebiat.iptime.org:8082"
+
 
     ngrok.set_auth_token("2MDs2nO6RHjqSX7fqnx9Akt4QNM_3Z8XZbFz8NAvGAtVgnfc5")
     app = Flask(__name__)
@@ -36,7 +38,7 @@ def run():
         from ...stablediffusion import makeImage
         from ...dataac.image import upload
 
-        params = requests.json
+        params = json.loads(request.get_data(), encoding='utf-8')
         print("parans", params)
         image = makeImage(params["model_name"], params["prompt"])
         filepath = "makeimage.jpg"
