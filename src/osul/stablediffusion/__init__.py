@@ -17,5 +17,7 @@ def makeRandom(model_id):
     import torch
     pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
     pipe = pipe.to("cuda")
-    image = pipe(randomText()).images[0]
+    randomtext =randomText()
+    print("randomtext",randomtext)
+    image = pipe(randomtext).images[0]
     return image
