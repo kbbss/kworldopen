@@ -21,7 +21,7 @@ def randomText():
     return f"{job['name']},{place['name']},{emotion['name']}"
 
 
-def creteRandomImage():
+def creteRandomImage(model_name = None):
     import requests
     from ...stablediffusion import makeImage
     from ...dataac.image import upload
@@ -33,7 +33,11 @@ def creteRandomImage():
 
     prompt = json["prompt"]
     type = json["type"]
-    model_name = json["model_name"]
+    if model_name :
+        json["model_name"] = model_name
+    else:
+        model_name = json["model_name"]
+
     print("prompt=", prompt, "type=", type ,"model_name=",model_name)
 
     image = makeImage(model_name, prompt)
