@@ -21,7 +21,7 @@ def randomText():
     return f"{job['name']},{place['name']},{emotion['name']}"
 
 
-def creteRandomImage(model_name):
+def creteRandomImage(model_name,size=1):
     import requests
     from ...stablediffusion import makeImagePipe
     from ...dataac.image import upload
@@ -29,29 +29,32 @@ def creteRandomImage(model_name):
 
 
     pipe = makeImagePipe(model_name)
-    res = requests.post(f"{host}/klsworld/shapeword/makeimage/request_data",
-                        headers={'Content-type': 'application/json'}, json={})
-    json = res.json()
-    print("request_data", json)
+    for i in size:
+        filepath = f"./r{str(i + 1).zfill(3)}.png"
+        print(f"makeimage..... {filepath}")
+        res = requests.post(f"{host}/klsworld/shapeword/makeimage/request_data",
+                            headers={'Content-type': 'application/json'}, json={})
+        json = res.json()
+        print("request_data", json)
 
-    prompt = json["prompt"]
-    type = json["type"]
-    json["model_name"] = model_name
+        prompt = json["prompt"]
+        type = json["type"]
+        json["model_name"] = model_name
 
+        print("prompt=", prompt, "type=", type, "model_name=", model_name)
 
-    print("prompt=", prompt, "type=", type ,"model_name=",model_name)
+        image = pipe(prompt).images[0]
+        image.save("result.jpg")
 
-    image = pipe(prompt).images[0]
-    image.save("result.jpg")
+        clist = upload("result.jpg", "/sdtest")
+        print("clist", clist)
+        for c in clist["list"]:
+            json["image"] = c["id"]
 
-    clist = upload("result.jpg", "/sdtest")
-    print("clist", clist)
-    for c in clist["list"]:
-        json["image"] = c["id"]
+        res = requests.post(f"{host}/klsworld/shapeword/makeimage/create",
+                            headers={'Content-type': 'application/json'}, json=json)
 
-    res = requests.post(f"{host}/klsworld/shapeword/makeimage/create",
-                        headers={'Content-type': 'application/json'}, json=json)
+        made = res.json()
+        print("made", made)
 
-    made = res.json()
-    print("made", made)
-    return {"image": image, "made": made}
+    return {}
