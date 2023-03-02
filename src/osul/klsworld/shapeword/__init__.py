@@ -21,11 +21,14 @@ def randomText():
     return f"{job['name']},{place['name']},{emotion['name']}"
 
 
-def creteRandomImage(model_name = None):
+def creteRandomImage(model_name):
     import requests
-    from ...stablediffusion import makeImage
+    from ...stablediffusion import makeImagePipe
     from ...dataac.image import upload
     host = "http://kebiat.iptime.org:8082"
+
+
+    pipe = makeImagePipe(model_name)
     res = requests.post(f"{host}/klsworld/shapeword/makeimage/request_data",
                         headers={'Content-type': 'application/json'}, json={})
     json = res.json()
@@ -33,14 +36,12 @@ def creteRandomImage(model_name = None):
 
     prompt = json["prompt"]
     type = json["type"]
-    if model_name :
-        json["model_name"] = model_name
-    else:
-        model_name = json["model_name"]
+    json["model_name"] = model_name
+
 
     print("prompt=", prompt, "type=", type ,"model_name=",model_name)
 
-    image = makeImage(model_name, prompt)
+    image = pipe(prompt).images[0]
     image.save("result.jpg")
 
     clist = upload("result.jpg", "/sdtest")
