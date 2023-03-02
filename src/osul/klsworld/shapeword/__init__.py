@@ -29,7 +29,7 @@ def createRandomImage(model_name,size=1):
 
 
     pipe = makeImagePipe(model_name)
-    for i in size:
+    for i in range(size):
         filepath = f"./r{str(i + 1).zfill(3)}.png"
         print(f"makeimage..... {filepath}")
         res = requests.post(f"{host}/klsworld/shapeword/makeimage/request_data",
