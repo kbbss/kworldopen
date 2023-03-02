@@ -44,9 +44,9 @@ def createRandomImage(model_name,size=1):
         print("prompt=", prompt, "type=", type, "model_name=", model_name)
 
         image = pipe(prompt).images[0]
-        image.save("result.jpg")
+        image.save(filepath)
 
-        clist = upload("result.jpg", "/sdtest")
+        clist = upload(filepath, "/sdtest")
         print("clist", clist)
         for c in clist["list"]:
             json["image"] = c["id"]
