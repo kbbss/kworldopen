@@ -21,7 +21,7 @@ def randomText():
     return f"{job['name']},{place['name']},{emotion['name']}"
 
 
-def creteRandomImage(model_name,size=1):
+def createRandomImage(model_name,size=1):
     import requests
     from ...stablediffusion import makeImagePipe
     from ...dataac.image import upload
