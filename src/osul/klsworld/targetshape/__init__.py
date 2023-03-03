@@ -33,15 +33,15 @@ def createImage(model_name, target, another_prompt=""):
 
 
 def createPromptImage(model_name, text):
-    text = changeText(model_name,text)
-    print("changetext..",text)
+    text = changeText(model_name, text)
+    print("changetext..", text)
     img = sd_makeImage(model_name, text)
-    if img :
+    if img:
         filename = "targetshape_create_image.jpg"
         img.save(filename)
 
         clist = upload(filename, "/sdtest")
-        print("upload!",clist)
+        print("upload!", clist)
     return img
 
 
@@ -85,3 +85,38 @@ def changeText(model_name, prompt):
                 rp = rp + " "
             rp = rp + cstr
     return rp
+
+
+def makeAIImage(model_name, size=1):
+    from ...stablediffusion import makeImagePipe
+    from ...dataac.image import upload
+    import requests
+    host = "http://kebiat.iptime.org:8082"
+
+    pipe = makeImagePipe(model_name)
+
+    for i in range(size):
+        filepath = f"./r{str(i + 1).zfill(3)}.png"
+        print(f"makeimage..... {filepath}")
+        res = requests.post(f"{host}/klsworld/targetshape/schedule/request",
+                            headers={'Content-type': 'application/json'}, json={})
+        json = res.json()
+        print("request json", json)
+        prompt = json["prompt"]
+        json["model_name"] = model_name
+
+        image = pipe(prompt).images[0]
+        image.save(filepath)
+
+        clist = upload(filepath, "/sdtest")
+        print("clist", clist)
+        for c in clist["list"]:
+            json["image"] = c["id"]
+
+        res = requests.post(f"{host}/klsworld/targetshape/schedule/create",
+                            headers={'Content-type': 'application/json'}, json=json)
+
+        aiimage = res.json()
+        print("aiimage", aiimage)
+
+    return ""
