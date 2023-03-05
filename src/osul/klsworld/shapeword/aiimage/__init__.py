@@ -35,7 +35,7 @@ class AIImageApp:
         print("create!!", params)
         print("collection", collection)
 
-        id = collection.insert(params)
+        id = collection.insert_one(params)
         print("aiimage id", str(id))
         params["id"] = str(id)
 
