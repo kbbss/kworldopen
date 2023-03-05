@@ -14,7 +14,7 @@ import requests
 collection = db["klsworld_targetshape_aiimages"]
 
 
-class AIImageApp:
+class AIImageApp(threading.Thread):
     from ....stablediffusion import makeImagePipe
     from ....dataac.image import upload
     import requests
@@ -48,8 +48,9 @@ class AIImageApp:
 
 
         aiiamgesT = AiImagesT(aiImageApp, params)
-        #aiiamgesT.start()
-        aiiamgesT.run()
+        aiiamgesT.start()
+        aiiamgesT.join()
+       # aiiamgesT.run()
         return params
 
     def createRequset(self):
@@ -64,6 +65,16 @@ class AIImageApp:
 
     def updateState(self, id, state):
         return collection.update_one({"_id": ObjectId(id)}, {"$set": {"state": state}})
+
+    def run(self):
+        while True:
+            time.sleep(1)
+            aiimages = collection.find_one({"state":"none" })
+            if aiimages :
+                aiimages["id"] = str(aiimages["_id"])
+                print("aiimage creeaterun" ,aiimages)
+                aiiamgesT = AiImagesT(aiImageApp, aiimages)
+                aiiamgesT.run()
 
 
 class AiImagesT(threading.Thread):
