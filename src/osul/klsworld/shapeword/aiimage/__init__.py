@@ -30,16 +30,16 @@ class AIImageApp:
     def create(self, params):
         params["createdate"] = datetime.datetime.now(timezone('Asia/Seoul'))
         print("create!!", params)
-        id = self.collection.insert(params)
+        id = collection.insert(params)
         print("aiimage id", str(id))
         params["id"] = str(id)
         return params
 
     def updateImage(self, id, imageID):
-        return self.collection.update_one({"_id": ObjectId(id)}, {"$set": {"image": imageID}})
+        return collection.update_one({"_id": ObjectId(id)}, {"$set": {"image": imageID}})
 
     def updateState(self, id, state):
-        return self.collection.update_one({"_id": ObjectId(id)}, {"$set": {"state": state}})
+        return collection.update_one({"_id": ObjectId(id)}, {"$set": {"state": state}})
 
 
 class AiImagesT(threading.Thread):
