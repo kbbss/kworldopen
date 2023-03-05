@@ -39,6 +39,8 @@ class AIImageApp:
         print("create!!", params)
         print("collection", collection)
 
+        params["model_name"] =  self.model_name
+
         p = collection.insert_one(params)
         print("p",p)
         print("aiimage id", p.inserted_id)
@@ -46,8 +48,8 @@ class AIImageApp:
 
 
         aiiamgesT = AiImagesT(aiImageApp, params)
-        aiiamgesT.start()
-
+        #aiiamgesT.start()
+        aiiamgesT.run()
         return params
 
     def createRequset(self):
