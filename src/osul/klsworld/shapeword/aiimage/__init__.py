@@ -18,12 +18,16 @@ class AIImageApp:
     from ....stablediffusion import makeImagePipe
     from ....dataac.image import upload
     import requests
+    import  sys
 
     host = "http://kebiat.iptime.org:8082"
     model_name = "Manseo/Colorful-v4.5-Plus"
 
-   # pipe = makeImagePipe(model_name)
+    IN_COLAB = 'google.colab' in sys.modules
     pipe = None
+    if IN_COLAB:
+        pipe = makeImagePipe(model_name)
+
 
     def info(self):
         return {"version": "0.0.1"}
