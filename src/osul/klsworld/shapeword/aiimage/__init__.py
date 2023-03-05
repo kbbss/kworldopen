@@ -8,16 +8,16 @@ from bson.json_util import dumps
 import time
 from ....dataac.image import sample as image_sample
 import threading
+from ....monogodb import db
 
+collection = db["klsworld_targetshape_aiimages"]
 
 class AIImageApp:
     from ....stablediffusion import makeImagePipe
     from ....dataac.image import upload
     import requests
 
-    from ....monogodb import db
 
-    collection = db["klsworld_targetshape_aiimages"]
 
     host = "http://kebiat.iptime.org:8082"
     model_name = "Manseo/Colorful-v4.5-Plus"
@@ -28,8 +28,8 @@ class AIImageApp:
         return {"version": "0.0.1"}
 
     def create(self, params):
-        print("create!!", params)
         params["createdate"] = datetime.datetime.now(timezone('Asia/Seoul'))
+        print("create!!", params)
         id = self.collection.insert(params)
         print("aiimage id", str(id))
         params["id"] = str(id)
@@ -53,11 +53,11 @@ class AiImagesT(threading.Thread):
         update = self.aiImageApp.updateState(self.aiimages["id"], "generating")
         from ....dataac.image import upload
 
-        print("self.aiimges",self.aiimages)
+        print("self.aiimges", self.aiimages)
 
         prompt = self.aiimages["prompt"]
         model_name = self.aiimages["model_name"]
-        print("prompt=",prompt,"model_name=",model_name)
+        print("prompt=", prompt, "model_name=", model_name)
 
         self.aiimages["model_name"] = model_name
 
@@ -74,9 +74,9 @@ class AiImagesT(threading.Thread):
         for c in clist["list"]:
             image = c
 
-        print("image!",image)
-        print("updateImage!!", self.aiimages["id"],  str(image["_id"]))
-        update =self.aiImageApp.updateImage(self.aiimages["id"], str(image["_id"]))
+        print("image!", image)
+        print("updateImage!!", self.aiimages["id"], str(image["_id"]))
+        update = self.aiImageApp.updateImage(self.aiimages["id"], str(image["_id"]))
         print("update image", update)
         update = self.aiImageApp.updateState(self.aiimages["id"], "complete")
         print("update state complete", update)
@@ -93,7 +93,7 @@ def run():
     aiImageApp = AIImageApp()
     print(f".....................aiiImageApp ... {aiImageApp.info()}")
 
-    print("check" ,aiImageApp.model_name ,aiImageApp.pipe)
+    print("check", aiImageApp.model_name, aiImageApp.pipe)
 
     HOST_OSUL_SERVER = "http://kebiat.iptime.org:8082"
 
@@ -127,9 +127,9 @@ def run():
         print("aiimage_create...", params)
         print("time.sleep...")
 
-        aiiamges =aiImageApp.create(params)
+        aiiamges = aiImageApp.create(params)
 
-        aiiamgesT =AiImagesT(aiImageApp, aiiamges)
+        aiiamgesT = AiImagesT(aiImageApp, aiiamges)
         aiiamgesT.start()
         return dumps(aiiamges)
 
