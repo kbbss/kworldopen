@@ -97,14 +97,14 @@ class AiImagesT(threading.Thread):
 
             print("clist", clist)
             for c in clist["list"]:
-                image = str(c["_id"])
+                image = str(c["id"])
         else:
             print("not pipe mode random sdtest get")
             print("sleep..")
             time.sleep(20)
             l = image_sample("/sdtest")
             for c in l:
-                image = c["id"]
+                image = c["_id"]
 
         print("image!", image)
         print("updateImage!!", self.aiimages["id"], "image",image)
