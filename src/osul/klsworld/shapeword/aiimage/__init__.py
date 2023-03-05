@@ -29,7 +29,10 @@ class AIImageApp:
 
     def create(self, params):
         params["createdate"] = datetime.datetime.now(timezone('Asia/Seoul'))
+
+        params.pop("id")
         print("create!!", params)
+        print("collection",collection)
         id = collection.insert(params)
         print("aiimage id", str(id))
         params["id"] = str(id)
@@ -93,7 +96,7 @@ def run():
     aiImageApp = AIImageApp()
     print(f".....................aiiImageApp ... {aiImageApp.info()}")
 
-    print("check", aiImageApp.model_name, aiImageApp.pipe)
+    print("check", aiImageApp.model_name)
 
     HOST_OSUL_SERVER = "http://kebiat.iptime.org:8082"
 
