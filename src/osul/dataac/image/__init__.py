@@ -5,8 +5,13 @@ import numpy as np
 import urllib.request
 import requests
 import cv2
+from ...monogodb import db
+from bson.objectid import ObjectId
+from bson.json_util import dumps
 
 host = "http://miyo2020.cafe24.com"
+
+collection = db["dataac_acfile"]
 
 
 def imageUrl(id):
@@ -54,17 +59,22 @@ print("res.json",res.json())
     """
     import requests
     files = {}
-    count =0
+    count = 0
     if type(filepaths) == str:
-        filepaths =[filepaths]
+        filepaths = [filepaths]
     for filepath in filepaths:
         print("filepath", filepath)
         file = open(filepath, 'rb')
-        print("file",file)
+        print("file", file)
         if file:
-            count = count+1
+            count = count + 1
             files[f"file{count}"] = file
     if len(files) > 0:
         res = requests.post(f"{host}/klsworld/acfile/upload/dataac_acfile/upload_files",
                             files=files, data={"param": str({"path": cloudpath})})
         return res.json()
+
+
+def sample(path, size=1):
+    l = collection.aggregate([{'$match': {"path": path}}, {"$sample": {"size": size}}])
+    return l

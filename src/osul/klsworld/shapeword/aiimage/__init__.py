@@ -3,12 +3,26 @@ import uuid
 from ....stablediffusion import makeImagePipe
 from pytz import timezone
 import datetime
+from bson.objectid import ObjectId
+from bson.json_util import dumps
+import time
+from ....dataac.image import sample as image_sample
+import threading
 
 
 class AIImageApp:
+    from ....stablediffusion import makeImagePipe
+    from ....dataac.image import upload
+    import requests
+
     from ....monogodb import db
 
     collection = db["klsworld_targetshape_aiimages"]
+
+    host = "http://kebiat.iptime.org:8082"
+    model_name = "Manseo/Colorful-v4.5-Plus"
+
+    pipe = makeImagePipe(model_name)
 
     def info(self):
         return {"version": "0.0.1"}
@@ -21,8 +35,51 @@ class AIImageApp:
         params["id"] = str(id)
         return params
 
-    def getSessions(self):
-        return self.sar
+    def updateImage(self, id, imageID):
+        return self.collection.update_one({"_id": ObjectId(id)}, {"$set": {"image": imageID}})
+
+    def updateState(self, id, state):
+        return self.collection.update_one({"_id": ObjectId(id)}, {"$set": {"state": state}})
+
+
+class AiImagesT(threading.Thread):
+
+    def __init__(self, aiImageApp, aiimages):
+        threading.Thread.__init__(self)
+        self.aiimages = aiimages
+        self.aiImageApp = aiImageApp
+
+    def run(self):
+        update = self.aiImageApp.updateState(self.aiimages["id"], "generating")
+        from ....dataac.image import upload
+
+        print("self.aiimges",self.aiimages)
+
+        prompt = self.aiimages["prompt"]
+        model_name = self.aiimages["model_name"]
+        print("prompt=",prompt,"model_name=",model_name)
+
+        self.aiimages["model_name"] = model_name
+
+        pipe = self.aiImageApp.pipe
+
+        filepath = f"./targetshape_aiimage_{self.aiimages['id']}.png"
+
+        image = pipe(prompt).images[0]
+        image.save(filepath)
+
+        clist = upload(filepath, "/sdtest")
+        image = None
+        print("clist", clist)
+        for c in clist["list"]:
+            image = c
+
+        print("image!",image)
+        print("updateImage!!", self.aiimages["id"],  str(image["_id"]))
+        update =self.aiImageApp.updateImage(self.aiimages["id"], str(image["_id"]))
+        print("update image", update)
+        update = self.aiImageApp.updateState(self.aiimages["id"], "complete")
+        print("update state complete", update)
 
 
 def run():
@@ -35,6 +92,8 @@ def run():
 
     aiImageApp = AIImageApp()
     print(f".....................aiiImageApp ... {aiImageApp.info()}")
+
+    print("check" ,aiImageApp.model_name ,aiImageApp.pipe)
 
     HOST_OSUL_SERVER = "http://kebiat.iptime.org:8082"
 
@@ -66,7 +125,13 @@ def run():
     def aiimage_create():
         params = json.loads(request.get_data())
         print("aiimage_create...", params)
-        return dumps(aiImageApp.create(params))
+        print("time.sleep...")
+
+        aiiamges =aiImageApp.create(params)
+
+        aiiamgesT =AiImagesT(aiImageApp, aiiamges)
+        aiiamgesT.start()
+        return dumps(aiiamges)
 
     @app.route("/aiimage/sessions", methods=['POST'])
     def sessions():
