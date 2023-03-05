@@ -22,8 +22,8 @@ class AIImageApp:
     host = "http://kebiat.iptime.org:8082"
     model_name = "Manseo/Colorful-v4.5-Plus"
 
-    # pipe = makeImagePipe(model_name)
-    pipe = None
+    pipe = makeImagePipe(model_name)
+   # pipe = None
 
     def info(self):
         return {"version": "0.0.1"}
@@ -34,13 +34,13 @@ class AIImageApp:
         params.pop("id")
         print("create!!", params)
         print("collection", collection)
+
         id = collection.insert(params)
         print("aiimage id", str(id))
         params["id"] = str(id)
 
-        aiiamges = aiImageApp.create(params)
 
-        aiiamgesT = AiImagesT(aiImageApp, aiiamges)
+        aiiamgesT = AiImagesT(aiImageApp, params)
         aiiamgesT.start()
 
         return params
@@ -93,7 +93,9 @@ class AiImagesT(threading.Thread):
                 image = c
         else:
             print("not pipe mode random sdtest get")
-            l = image_sample("sdtest")
+            print("sleep..")
+            time.sleep(20)
+            l = image_sample("/sdtest")
             for c in l:
                 image = c
 
