@@ -22,8 +22,8 @@ class AIImageApp:
     host = "http://kebiat.iptime.org:8082"
     model_name = "Manseo/Colorful-v4.5-Plus"
 
-    pipe = makeImagePipe(model_name)
-   # pipe = None
+   # pipe = makeImagePipe(model_name)
+    pipe = None
 
     def info(self):
         return {"version": "0.0.1"}
@@ -35,9 +35,10 @@ class AIImageApp:
         print("create!!", params)
         print("collection", collection)
 
-        id = collection.insert_one(params)
-        print("aiimage id", str(id))
-        params["id"] = str(id)
+        p = collection.insert_one(params)
+        print("p",p)
+        print("aiimage id", p.inserted_id)
+        params["id"] = p.inserted_id
 
 
         aiiamgesT = AiImagesT(aiImageApp, params)
