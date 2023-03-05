@@ -1,3 +1,4 @@
-from src.osul.klsworld.shapeword.aiimage import run
+from src.osul.klsworld.shapeword.aiimage import aiImageApp
 
-run()
+
+aiImageApp.createRequset()
