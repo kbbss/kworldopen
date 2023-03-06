@@ -97,7 +97,7 @@ class AiImagesT(threading.Thread):
         print("prompt=", prompt, "model_name=", model_name)
 
         self.aiimages["model_name"] = model_name
-        aiImageApp.updateModel_name(id, model_name)
+        aiImageApp.updateModel_name(self.aiimages["id"], model_name)
         image = None
         pipe = self.aiImageApp.pipe
         if pipe:
