@@ -33,7 +33,6 @@ class AIImageApp(threading.Thread):
         return {"version": "0.0.1"}
 
     def create(self, params):
-        params["createdate"] = datetime.datetime.now(timezone('Asia/Seoul'))
 
         params.pop("id")
         print("create!!", params)
@@ -66,6 +65,8 @@ class AIImageApp(threading.Thread):
     def updateState(self, id, state):
         return collection.update_one({"_id": ObjectId(id)}, {"$set": {"state": state}})
 
+    def updateModel_name(self, id, model_name):
+        return collection.update_one({"_id": ObjectId(id)}, {"$set": {"model_name": model_name}})
     def run(self):
         while True:
             time.sleep(1)
@@ -91,10 +92,12 @@ class AiImagesT(threading.Thread):
         print("self.aiimges", self.aiimages)
 
         prompt = self.aiimages["prompt"]
-        model_name = self.aiimages["model_name"]
+        model_name = aiImageApp.model_name
+
         print("prompt=", prompt, "model_name=", model_name)
 
         self.aiimages["model_name"] = model_name
+        aiImageApp.updateModel_name(id, model_name)
         image = None
         pipe = self.aiImageApp.pipe
         if pipe:
@@ -143,7 +146,7 @@ def run():
 
     print("check", aiImageApp.model_name)
 
-    ngrok.set_auth_token("2MDs2nO6RHjqSX7fqnx9Akt4QNM_3Z8XZbFz8NAvGAtVgnfc5")
+    ngrok.set_auth_token("")
     app = Flask(__name__)
     run_with_ngrok(app)  # Start ngrok when app is run
 
